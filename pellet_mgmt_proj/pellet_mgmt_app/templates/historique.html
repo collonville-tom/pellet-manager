@@ -1,0 +1,40 @@
+{% extends './base.html' %}
+
+{% block content %}
+
+<h1>Historique de consomation</h1>
+
+{% include 'calculateStock.html' %}
+
+<h2>Historique</h2>
+<form method="POST" action="{% url 'historique' %}">
+    {% csrf_token %}
+    <label for="type">Type de sac</label>
+    <select name="type">
+        {% for sac in pelletType %}
+        <option value="{{ sac.id }}"> {{ sac.name }}</option>
+        {% endfor %}
+    </select>
+    <label for="date">Today:</label>
+    <input type="date" name="date" required>
+    <label for="perte">Perte</label>
+    <input type="checkbox" name="isPerte" value="True">
+    <button type="submit">Consommer Sac</button>
+</form>
+<table>
+    <tr>
+        <th>Type de Sac</th>
+        <th>Date de Consommation</th>
+        <th>Perte</th>
+    </tr>
+    {% for consommation in consommations %}
+    <tr>
+        <td>{{ consommation.type.name }}</td>
+        <td>{{ consommation.date }}</td>
+        <td>{{ consommation.isPerte }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+
+{% endblock %}

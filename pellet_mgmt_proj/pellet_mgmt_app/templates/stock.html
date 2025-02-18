@@ -1,0 +1,46 @@
+{% extends './base.html' %}
+
+{% block content %}
+
+<h1>Gestion du Stock de Pellets</h1>
+    
+<h2>Types de granulet</h2>
+<table>
+    <tr>
+        <th>Type de Sac</th>
+        <th>Prix (€)</th>
+        <th>Data achat</th>
+        <th>Poid (kg)</th>
+    </tr>
+    {% for sac in pelletType %}
+    <tr>
+        <td>{{ sac.name }}</td>
+        <td>{{ sac.prix_unite }}</td>
+        <td>{{ sac.date_achat }}</td>
+        <td>{{ sac.poid_sac }}</td>
+    </tr>
+    {% endfor %}
+</table>
+<form method="POST" action="{% url 'stock' %}">
+    {% csrf_token %}
+    <label for="nom">Nom du sac :</label>
+    <input type="text" name="nom" required>
+
+    <label for="prix">Prix unitaire (€) :</label>
+    <input type="number" name="prix" step="0.01" required>
+
+    <label for="date">Date d'achat :</label>
+    <input type="date" name="date" required>
+
+    <label for="poid">Poid unitaire :</label>
+    <input type="number" name="poid" required>
+
+    <label for="stock">Stock initial :</label>
+    <input type="number" name="stock" required>
+
+    <button type="submit">Ajouter type de sac</button>
+</form>
+
+{% include 'calculateStock.html' %}
+
+{% endblock %}

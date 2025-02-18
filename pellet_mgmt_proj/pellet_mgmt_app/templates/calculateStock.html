@@ -1,0 +1,23 @@
+{% block calculateStock %}
+
+<h2>Stock de granulet</h2>
+<table>
+    <tr>
+        <th>Type de Sac</th>
+        <th>Quantité initiale</th>
+        <th>Quantité consommé</th>
+        <th>Quantité restante</th>
+        <th>Sac Perdu (non consommable)</th>
+    </tr>
+    {% for stat in pelletType %}
+    <tr>
+        <td>{{ stat.name }}</td>
+        <td>{{ stat.quantite_initiale }}</td>
+        <td>{{ stat.quantite_consomme }}</td>
+        <td>{{ stat.quantite_restante }}</td>
+        <td>{{ stat.perte }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}
