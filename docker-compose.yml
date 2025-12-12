@@ -1,0 +1,20 @@
+services:
+  pellet_manager:
+    build: .
+    command: ./startContaineur.sh
+    env_file: ".env"
+    ports:
+      - 8000:8000
+    depends_on:
+      - db
+
+  db:
+    image: postgres:15
+    #volumes:
+    #  - ./postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=pellet_manager
+    ports:
+      - 5432:5432
