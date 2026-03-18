@@ -12,10 +12,7 @@ pipeline {
         // --- Configuration ---
         IMAGE_NAME = "pellet_manager"
         // TODO: Update with your real registry (e.g., docker.io/username)
-        DOCKER_REGISTRY = "collonville" 
-        // Credential ID defined in Jenkins (SSH key for git push)
-        GIT_CREDENTIALS_ID = 'git-ssh-creds'
-        // --- End Configuration ---
+        DOCKER_REGISTRY = "https://collonvillethomas.freeboxos.fr:5000" 
     }
 
     stages {
@@ -29,8 +26,8 @@ pipeline {
 
             steps {
                 script {
-                    pip install --upgrade pip
-                    pip install Django psycopg2-binary django-environ django-debug-toolbar
+                    sh "pip install --upgrade pip"
+                    sh "pip install Django psycopg2-binary django-environ django-debug-toolbar"
                     // Check if VERSION file exists, otherwise start at 0.1.0
                     if (!fileExists('VERSION')) {
                         writeFile file: 'VERSION', text: '0.1.0'
@@ -91,6 +88,8 @@ pipeline {
                 }
             }
         }
+
+        // ajouter ici un statge incluant des tests E2E si la branche est develop
 
         stage('Release') {
             when {
