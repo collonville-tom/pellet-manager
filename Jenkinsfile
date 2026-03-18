@@ -49,7 +49,7 @@ pipeline {
             steps {
                 echo "Installing Django tests library..."
                 sh "pip install --upgrade pip"
-                sh "pip install Django psycopg2-binary django-environ django-debug-toolbar"
+                sh "pip install Django psycopg2-binary django-environ django-debug-toolbar sqlparse"
                 echo "Running Django tests..."
                 sh "python manage.py test"
             }
