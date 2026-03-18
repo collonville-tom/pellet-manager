@@ -26,8 +26,6 @@ pipeline {
 
             steps {
                 script {
-                    sh "pip install --upgrade pip"
-                    sh "pip install Django psycopg2-binary django-environ django-debug-toolbar"
                     // Check if VERSION file exists, otherwise start at 0.1.0
                     if (!fileExists('VERSION')) {
                         writeFile file: 'VERSION', text: '0.1.0'
@@ -49,6 +47,9 @@ pipeline {
                 }
             }
             steps {
+                echo "Installing Django tests library..."
+                sh "pip install --upgrade pip"
+                sh "pip install Django psycopg2-binary django-environ django-debug-toolbar"
                 echo "Running Django tests..."
                 sh "python manage.py test"
             }
