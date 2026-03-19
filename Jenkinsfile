@@ -19,7 +19,7 @@ pipeline {
         stage('Initialize') {
             agent {
                 docker { 
-                    image 'python:3.11.4-slim-buster'
+                    image 'python:3.11.4-slim-bookworm'
                     reuseNode true 
                 }
             }
@@ -42,7 +42,7 @@ pipeline {
         stage('Test') {
             agent {
                 docker { 
-                    image 'python:3.11.4-slim-buster'
+                    image 'python:3.11.4-slim-bookworm'
                     reuseNode true 
                 }
             }
