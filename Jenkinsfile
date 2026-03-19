@@ -97,6 +97,7 @@ pipeline {
 
         stage('Release') {
             when {
+                beforeAgent true
                 allOf {
                     branch 'main'
                     // Condition: check if the last commit is a merge from 'develop'
