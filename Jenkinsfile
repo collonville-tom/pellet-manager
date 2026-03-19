@@ -13,6 +13,7 @@ pipeline {
         IMAGE_NAME = "pellet_manager"
         // TODO: Update with your real registry (e.g., docker.io/username)
         DOCKER_REGISTRY = "collonvillethomas.freeboxos.fr:5000" 
+        REGISTRY_CREDENTIALS_ID = "docker-registry-credentials"      
     }
 
     stages {
@@ -85,7 +86,9 @@ pipeline {
                     echo "Pushing image for branch: ${env.BRANCH_NAME}"
                     sh "docker tag ${IMAGE_NAME}:${env.DOCKER_TAG} ${DOCKER_REGISTRY}/${IMAGE_NAME}:${env.DOCKER_TAG}"
                     // Uncomment to push to real registry
-                    sh "docker push ${DOCKER_REGISTRY}/${IMAGE_NAME}:${env.DOCKER_TAG}"
+                    docker.withRegistry("https://${DOCKER_REGISTRY}", REGISTRY_CREDENTIALS_ID) {  
+                        sh "docker push ${DOCKER_REGISTRY}/${IMAGE_NAME}:${env.DOCKER_TAG}"
+                    }
                 }
             }
         }
@@ -112,12 +115,14 @@ pipeline {
             steps {
                 script {
                     echo "Detected merge from develop to main. Starting release process..."
+                    docker.withRegistry("https://${DOCKER_REGISTRY}", REGISTRY_CREDENTIALS_ID) {  
                    
-                    // . Tag and Push Docker Release
-                    sh "docker tag ${IMAGE_NAME}:${env.DOCKER_TAG} ${DOCKER_REGISTRY}/${IMAGE_NAME}:${env.CURRENT_VERSION}"
-                    sh "docker tag ${IMAGE_NAME}:${env.DOCKER_TAG} ${DOCKER_REGISTRY}/${IMAGE_NAME}:latest"
-                    sh "docker push ${DOCKER_REGISTRY}/${IMAGE_NAME}:${env.CURRENT_VERSION}"
-                    sh "docker push ${DOCKER_REGISTRY}/${IMAGE_NAME}:latest"
+                        // . Tag and Push Docker Release
+                        sh "docker tag ${IMAGE_NAME}:${env.DOCKER_TAG} ${DOCKER_REGISTRY}/${IMAGE_NAME}:${env.CURRENT_VERSION}"
+                        sh "docker tag ${IMAGE_NAME}:${env.DOCKER_TAG} ${DOCKER_REGISTRY}/${IMAGE_NAME}:latest"
+                        sh "docker push ${DOCKER_REGISTRY}/${IMAGE_NAME}:${env.CURRENT_VERSION}"
+                        sh "docker push ${DOCKER_REGISTRY}/${IMAGE_NAME}:latest"
+                    }
                 }
             }
         }
