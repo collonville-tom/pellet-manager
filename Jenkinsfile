@@ -12,7 +12,7 @@ pipeline {
         // --- Configuration ---
         IMAGE_NAME = "pellet_manager"
         // TODO: Update with your real registry (e.g., docker.io/username)
-        DOCKER_REGISTRY = "https://collonvillethomas.freeboxos.fr:5000" 
+        DOCKER_REGISTRY = "collonvillethomas.freeboxos.fr:5000" 
     }
 
     stages {
